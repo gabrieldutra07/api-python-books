@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import mysql.connector
+import json
 
 connection = mysql.connector.connect(
     host = 'localhost',
@@ -7,6 +8,12 @@ connection = mysql.connector.connect(
     password = 'admin',
     database = 'books',
 )
+
+## CRUD
+## comando = ''
+## cursor.execute(comando)
+## -> .commit(): edição do banco de dados
+## -> .fetchall(): leitura do banco 
 
 cursor = connection.cursor()
 
@@ -32,6 +39,10 @@ books = [
 
 @app.route('/books', methods=['GET'])
 def get_books():
+    command = 'SELECT * FROM books'
+    cursor.execute(command)
+    result = cursor.fetchall()
+    print(result)
     return jsonify(books)
 
 @app.route('/books/<int:id>', methods=['GET'])
@@ -51,6 +62,9 @@ def update_book_by_id(id):
 @app.route('/books', methods=['POST'])
 def create_book():
     new_book = request.get_json()
+    command = f'INSERT INTO books (title, author) VALUES ("{new_book["title"]}", "{new_book["author"]}")'
+    cursor.execute(command)
+    connection.commit()
     books.append(new_book)
     return jsonify(books)
 
