@@ -2,24 +2,32 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-livros = [
+books = [
     {
         'id': 1,
-        'título': 'Bíblia Sagrada',
-        'autor': 'Deus'
+        'title': 'Bíblia Sagrada',
+        'author': 'Deus'
     },
     {
         'id': 2,
-        'título': 'Meu amigo Espírito Santo',
-        'autor': 'PR Rodrigo Pena'
+        'title': 'Meu amigo Espírito Santo',
+        'author': 'PR Rodrigo Pena'
     },
     {
         'id': 3,
-        'título': 'Até que nada mais importe',
-        'autor': 'Luciano Subirá'
+        'title': 'Até que nada mais importe',
+        'author': 'Luciano Subirá'
     }
 ]
 
-@app.route('/livros')
+@app.route('/books', methods=['GET'])
 def get_books():
-    return jsonify(livros)
+    return jsonify(books)
+
+@app.route('/book/<int:id>', methods=['GET'])
+def get_book_by_id(id):
+    for book in books:
+        if book.get('id') == id:
+            return jsonify(books)
+
+app.run(port=5000, host='localhost', debug=True)
