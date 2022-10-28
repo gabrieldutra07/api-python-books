@@ -1,4 +1,14 @@
 from flask import Flask, jsonify, request
+import mysql.connector
+
+connection = mysql.connector.connect(
+    host = 'localhost',
+    user = 'root',
+    password = 'admin',
+    database = 'books',
+)
+
+cursor = connection.cursor()
 
 app = Flask(__name__)
 
@@ -52,3 +62,6 @@ def remove_book(id):
     return jsonify(books)
 
 app.run(port=5000, host='localhost', debug=True)
+
+cursor.close()
+connection.close()
