@@ -5,8 +5,8 @@ app = Flask(__name__)
 books = [
     {
         'id': 1,
-        'title': 'Bíblia Sagrada',
-        'author': 'Deus'
+        'title': 'Seu dinheiro pode mais',
+        'author': 'Gerson Costa'
     },
     {
         'id': 2,
@@ -37,5 +37,11 @@ def update_book_by_id(id):
         if book.get('id') == id:
             books[index].update(updated_book)
             return jsonify(books[index])
+
+@app.route('/books', methods=['POST'])
+def create_book():
+    new_book = request.get_json()
+    books.append(new_book)
+    return jsonify(books)
 
 app.run(port=5000, host='localhost', debug=True)
