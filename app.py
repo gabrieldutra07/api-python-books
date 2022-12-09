@@ -19,6 +19,7 @@ def get_books():
     command = 'SELECT * FROM books'
     cursor.execute(command)
     result = cursor.fetchall()
+    print(result)
     return jsonify(result)
 
 @app.route('/books/<int:id>', methods=['GET'])
