@@ -51,7 +51,7 @@ def remove_book(id):
     connection.commit()
     return get_books()
 
-app.run(port=5000, host='localhost', debug=True)
+app.run(port=5000, host='localhost', debug=False)
 
 cursor.close()
 connection.close()
